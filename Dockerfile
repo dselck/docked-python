@@ -1,6 +1,8 @@
-FROM        python:alpine
-RUN         apk add --no-cache tini
-ENTRYPOINT  ["/sbin/tini", "--"]
+FROM        python:latest
+ENV         TINI_VERSION v0.18.0
+ADD         https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN         chmod +x /tini
+ENTRYPOINT  ["/tini", "--"]
 RUN         pip install jupyter m3u8 jupyterlab
 WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
