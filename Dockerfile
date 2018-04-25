@@ -8,3 +8,4 @@ WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
 EXPOSE      8888
 CMD         ["start-jupyterlab.sh"]
+COPY        start-jupyterlab.sh /usr/local/bin
