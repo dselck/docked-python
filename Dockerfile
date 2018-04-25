@@ -9,5 +9,5 @@ RUN         pip install jupyter m3u8 jupyterlab tqdm
 WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
 EXPOSE      8888
-CMD         ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "echo ${PASSWORD_ARG}"]
+CMD         ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.password="]
 COPY        start-jupyterlab.sh /usr/local/bin
