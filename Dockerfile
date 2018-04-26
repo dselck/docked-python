@@ -12,7 +12,7 @@ RUN         apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/c
             glib \
             libxext \
             libxrender \
-            tini \ 
+            tini@testing \ 
             && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk" -o /tmp/glibc.apk \
             && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-bin-2.25-r0.apk" -o /tmp/glibc-bin.apk \
             && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-i18n-2.25-r0.apk" -o /tmp/glibc-i18n.apk \
@@ -28,11 +28,12 @@ RUN         mkdir -p $CONDA_DIR && \
             echo export PATH=$CONDA_DIR/bin:'$PATH' > /etc/profile.d/conda.sh && \
             curl https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda.sh && \
             /bin/bash mconda.sh -f -b -p $CONDA_DIR && \
-            rm mconda.sh && \
+            rm mconda.sh
 
 RUN         $CONDA_DIR/bin/conda install -c conda-forge jupyterlab tqdm pip
 RUN         $CONDA_DIR/bin/pip install m3u8
 
+ENTRYPOINT  ["/sbin/tini", "--"]
 VOLUME      /root/.jupyter
 VOLUME      /mnt/Videos
 EXPOSE      8888
