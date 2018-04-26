@@ -6,8 +6,7 @@ RUN         chmod +x /tini
 ENTRYPOINT  ["/tini", "--"]
 RUN         apt-get update && \
             apt-get upgrade -y && \
-            apt-get install -y --no-install-recommends \
-                               ffmpeg \
+            apt-get install -y ffmpeg \
                                python3 \
                                python3-pip && \
             apt-get -y autoremove && \
