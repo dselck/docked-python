@@ -1,12 +1,11 @@
-FROM        ubuntu:latest
+FROM        jrottenberg/ffmpeg:latest
 ENV         TINI_VERSION v0.18.0
 ADD         https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN         chmod +x /tini
 ENTRYPOINT  ["/tini", "--"]
 RUN         apt-get update && \
             apt-get upgrade -y && \
-            apt-get install -y ffmpeg \
-                               python3 \
+            apt-get install -y python3 \
                                python3-pip && \
             apt-get -y autoremove && \
             apt-get -y clean && \
