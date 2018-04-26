@@ -1,28 +1,37 @@
-FROM        jrottenberg/ffmpeg:latest
-ENV         TINI_VERSION v0.18.0
-ADD         https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN         chmod +x /tini
-ENTRYPOINT  ["/tini", "--"]
+FROM        jrottenberg/ffmpeg:alpine
 
-RUN         apt-get update --fix-missing && \
-            apt-get install -y wget \
-                               bzip2 \
-                               ca-certificates \
-                               curl \
-                               git && \
-            apt-get -y autoremove && \
-            apt-get -y clean && \
-            rm -rf /var/lib/apt/lists/*
+RUN         apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/community add \
+            bash \
+            git \
+            curl \
+            ca-certificates \
+            bzip2 \
+            unzip \
+            sudo \
+            libstdc++ \
+            glib \
+            libxext \
+            libxrender \
+            tini \ 
+            && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk" -o /tmp/glibc.apk \
+            && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-bin-2.25-r0.apk" -o /tmp/glibc-bin.apk \
+            && curl -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.25-r0/glibc-i18n-2.25-r0.apk" -o /tmp/glibc-i18n.apk \
+            && apk add --allow-untrusted /tmp/glibc*.apk \
+            && /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib \
+            && /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 \
+            && rm -rf /tmp/glibc*apk /var/cache/apk/*
 
-RUN         wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-            /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-            rm ~/miniconda.sh && \
-            ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-            echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-            echo "conda activate base" >> ~/.bashrc
+ENV         CONDA_DIR=/opt/conda
+ENV         PATH=$CONDA_DIR/bin:$PATH SHELL=/bin/bash LANG=C.UTF-8
 
-RUN         /opt/conda/bin/conda install -c conda-forge jupyterlab tqdm pip
-RUN         /opt/conda/bin/pip install m3u8
+RUN         mkdir -p $CONDA_DIR && \
+            echo export PATH=$CONDA_DIR/bin:'$PATH' > /etc/profile.d/conda.sh && \
+            curl https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda.sh && \
+            /bin/bash mconda.sh -f -b -p $CONDA_DIR && \
+            rm mconda.sh && \
+
+RUN         $CONDA_DIR/bin/conda install -c conda-forge jupyterlab tqdm pip
+RUN         $CONDA_DIR/bin/pip install m3u8
 
 VOLUME      /root/.jupyter
 VOLUME      /mnt/Videos
