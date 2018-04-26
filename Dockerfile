@@ -8,25 +8,21 @@ RUN         apt-get update --fix-missing && \
             apt-get install -y wget \
                                bzip2 \
                                ca-certificates \
-                               libglib2.0-0 \
-                               libxext6 \
-                               libsm6 \
-                               libxrender1 \
-                               git \
-                               mercurial \
-                               subversion && \
+                               curl \
+                               git && \
             apt-get -y autoremove && \
             apt-get -y clean && \
             rm -rf /var/lib/apt/lists/*
 
-RUN         wget --quiet https://repo.continuum.io/archive/Anaconda3-5.1.0-Linux-x86_64.sh -O ~/anaconda.sh && \
-            /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-            rm ~/anaconda.sh && \
+RUN         wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+            /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+            rm ~/miniconda.sh && \
             ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
             echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
             echo "conda activate base" >> ~/.bashrc
 
-RUN         conda install -c conda-forge jupyterlab
+RUN         pip install m3u8
+RUN         /opt/conda/conda install -c conda-forge jupyterlab tqdm
 
 VOLUME      /root/.jupyter
 VOLUME      /mnt/Videos
