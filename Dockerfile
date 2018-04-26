@@ -15,9 +15,9 @@ RUN         apt-get update && \
             rm -rf /tmp/* && \
             rm -rf /var/tmp/*
 RUN         pip3 install jupyter m3u8 jupyterlab tqdm numpy scipy matplotlib sympy pandas
-RUN         ["chmod", "+x" "/usr/local/bin/start_jupyter.sh"]
+COPY        root/ /
+RUN         chmod +x /usr/local/bin/start_jupyter.sh
 WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
 EXPOSE      8888
 CMD         ["/usr/local/bin/start_jupyter.sh"]
-COPY        root/ /
