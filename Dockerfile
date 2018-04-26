@@ -8,4 +8,4 @@ RUN         pip install jupyter m3u8 jupyterlab tqdm
 WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
 EXPOSE      8888
-CMD         ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--generate-config"]
+CMD         ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
