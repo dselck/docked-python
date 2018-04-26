@@ -21,6 +21,7 @@ RUN         wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-L
             echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
             echo "conda activate base" >> ~/.bashrc
 
+RUN         find -name "*conda*"
 RUN         /opt/conda/conda install -c conda-forge jupyterlab tqdm pip
 RUN         /opt/conda/pip install m3u8
 
