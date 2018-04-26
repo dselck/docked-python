@@ -4,8 +4,17 @@ ENV         JUPYTER_CONFIG_DIR="/root/.jupyter/"
 ADD         https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN         chmod +x /tini
 ENTRYPOINT  ["/tini", "--"]
-RUN         pip install jupyter m3u8 jupyterlab tqdm
+RUN         pip install jupyter m3u8 jupyterlab tqdm numpy scipy matplotlib sympy pandas
+RUN         apt-get update && \
+            apt-get upgrade -y && \
+            apt-get install -y ffmpeg && \
+            apt-get -y autoremove && \
+            apt-get -y clean && \
+            rm -rf /var/lib/apt/lists/* && \
+            rm -rf /tmp/* && \
+            rm -rf /var/tmp/*
 WORKDIR     /usr/local/src
 VOLUME      /mnt/Videos
 EXPOSE      8888
-CMD         ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+CMD         ["/usr/local/bin/start_jupyter.sh"]
+COPY        root/ /
