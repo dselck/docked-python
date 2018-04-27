@@ -12,8 +12,7 @@ ENV         NB_UID 1000
 ENV         NB_DIR /home/$NB_USER/notebooks
 ENV         PORT 8888
 
-RUN         echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-            /usr/sbin/locale-gen
+RUN         echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 RUN         apt-get update --fix-missing && \
             apt-get -y upgrade && \
