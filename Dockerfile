@@ -13,7 +13,7 @@ ENV         NB_DIR /home/$NB_USER/notebooks
 ENV         PORT 8888
 
 RUN         echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-            locale-gen
+            /usr/sbin/locale-gen
 
 RUN         apt-get update --fix-missing && \
             apt-get -y upgrade && \
@@ -30,10 +30,6 @@ RUN         useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
             mkdir -p /opt/conda && \
             chown $NB_USER:users /opt/conda && \
             chmod g+w /etc/passwd /etc/group
-
-RUN         adduser -s /bin/bash -u $NB_UID -D $NB_USER && \
-            mkdir -p /opt/conda && \
-            chown $NB_USER /opt/conda
 
 USER        $NB_USER
 RUN         mkdir /home/$NB_USER/.jupter && \
