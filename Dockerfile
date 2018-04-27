@@ -25,7 +25,7 @@ ENTRYPOINT ["/usr/local/bin/tini", "--"]
 
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-    NB_USER=nonroot
+    NB_USER=nonroot \
     NB_UID=1000 \
     NB_GID=100 \
     NB_PORT=8888 \
@@ -63,10 +63,10 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86
     fix-permissions $HOME
     
 RUN $CONDA_DIR/bin/conda install -c conda-forge \
-    jupyter
-    jupyterlab
-    tqdm
-    pip 
+    jupyter \
+    jupyterlab \
+    tqdm \
+    pip \
     ipywidgets && \
     $CONDA_DIR/bin/pip install m3u8 && \
     $CONDA_DIR/bin/conda clean -tipsy && \
