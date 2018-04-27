@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec jupyter lab --port=$PORT --no-browser --ip=0.0.0.0 $*
+exec $CONDA_DIR/bin/jupyter lab --port=$NB_PORT --no-browser --ip=0.0.0.0 $*
