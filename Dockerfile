@@ -42,8 +42,8 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd /etc/group && \
-    fix-permissions $HOME && \
-    fix-permissions $CONDA_DIR
+    /usr/local/bin/fix-permissions $HOME && \
+    /usr/local/bin/fix-permissions $CONDA_DIR
 
 USER $NB_UID
 

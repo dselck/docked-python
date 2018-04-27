@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # set permissions on a directory
 # after any installation, if a directory needs to be (human) user-writable,
