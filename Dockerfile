@@ -11,9 +11,9 @@ ENV         NB_USER nonroot
 ENV         NB_UID 1000
 ENV         NB_DIR /home/$NB_USER/notebooks
 ENV         PORT 8888
-ENV         LC_ALL en_US.UTF-8
-ENV         LANG en_US.UTF-8
-ENV         LANGUAGE en_US.UTF-8
+
+RUN         echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+            locale-gen
 
 RUN         apt-get update --fix-missing && \
             apt-get -y upgrade && \
@@ -25,6 +25,11 @@ RUN         apt-get update --fix-missing && \
             apt-get -y autoremove && \
             apt-get -y clean && \
             rm -rf /var/lib/apt/lists/*
+
+RUN         useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+            mkdir -p /opt/conda && \
+            chown $NB_USER:users /opt/conda && \
+            chmod g+w /etc/passwd /etc/group
 
 RUN         adduser -s /bin/bash -u $NB_UID -D $NB_USER && \
             mkdir -p /opt/conda && \
