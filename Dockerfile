@@ -5,6 +5,7 @@ USER root
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
+    xz-utils \
     wget \
     bzip2 \
     ca-certificates \
@@ -25,7 +26,7 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/${TINI_VERSIO
 
 # Should download the latest version and be immune to addition of new versions
 RUN wget --quiet https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz && \
-    tar xvf ffmpeg-release-64bit-static.tar.xz && \
+    tar -xf ffmpeg-release-64bit-static.tar.xz && \
     mv ffmpeg*/ffmpeg /usr/local/bin/ffmpeg && \
     chmod +x /usr/local/bin/ffmpeg && \
     rm -rf ffmpeg*
