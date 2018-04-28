@@ -40,9 +40,9 @@ ADD fix-permissions /usr/local/bin/fix-permissions
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd /etc/group && \
-    /usr/local/bin/fix-permissions $HOME && \
-    /usr/local/bin/fix-permissions $CONDA_DIR
+    chmod g+w /etc/passwd /etc/group
+RUN /usr/local/bin/fix-permissions $HOME
+RUN /usr/local/bin/fix-permissions $CONDA_DIR
 
 USER $NB_UID
 
