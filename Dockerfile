@@ -86,7 +86,7 @@ VOLUME $HOME/.jupyter
 VOLUME $HOME/notebooks
 VOLUME /mnt
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
-CMD ["/bin/bash"]
+CMD ["/usr/local/bin/start.sh"]
 
 COPY start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
