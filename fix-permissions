@@ -17,6 +17,8 @@
 
 # Shamelessly borrowed from https://github.com/jupyter/docker-stacks/blob/master/base-notebook/fix-permissions
 
+set -e
+
 for d in $@; do
   find "$d" \
     ! \( \

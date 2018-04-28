@@ -36,7 +36,6 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER
     
 ADD fix-permissions /usr/local/bin/fix-permissions
-RUN chmod +x /usr/local/bin/fix-permissions
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
