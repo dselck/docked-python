@@ -65,7 +65,8 @@ RUN $CONDA_DIR/bin/conda install -c conda-forge \
     jupyterlab \
     tqdm \
     pip \
-    ipywidgets && \
+    ipywidgets \
+    nodejs && \
     $CONDA_DIR/bin/pip install m3u8 && \
     $CONDA_DIR/bin/conda clean -tipsy && \
     $CONDA_DIR/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
