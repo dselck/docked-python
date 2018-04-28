@@ -87,10 +87,9 @@ RUN $CONDA_DIR/bin/conda install -c conda-forge \
 USER root
 
 EXPOSE 8888
-WORKDIR $HOME
+WORKDIR $HOME/notebooks
 VOLUME $HOME/.jupyter
 VOLUME $HOME/notebooks
-VOLUME /mnt
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
 CMD ["/usr/local/bin/start.sh"]
 
