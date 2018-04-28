@@ -10,7 +10,6 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     ca-certificates \
     sudo \
     locales \
-    ffmpeg \
     fonts-liberation && \
     apt-get -y autoremove && \
     apt-get -y clean && \
@@ -24,12 +23,18 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/${TINI_VERSIO
     mv tini /usr/local/bin/tini && \
     chmod +x /usr/local/bin/tini
 
+# Should download the latest version and be immune to addition of new versions
+RUN wget --quiet https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz && \
+    tar xvf ffmpeg-release-64bit-static.tar.xz && \
+    mv ffmpeg*/ffmpeg /usr/local/bin/ffmpeg && \
+    chmod +x /usr/local/bin/ffmpeg && \
+    rm -rf ffmpeg*
+
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
     NB_USER=nonroot \
     NB_UID=1000 \
     NB_GID=100 \
-    NB_PORT=8888 \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
@@ -80,7 +85,7 @@ RUN $CONDA_DIR/bin/conda install -c conda-forge \
     
 USER root
 
-EXPOSE $NB_PORT
+EXPOSE 8888
 WORKDIR $HOME
 VOLUME $HOME/.jupyter
 VOLUME $HOME/notebooks
