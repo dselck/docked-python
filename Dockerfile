@@ -42,9 +42,9 @@ RUN chmod +x /usr/local/bin/fix-permissions
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd /etc/group
-RUN fix-permissions $HOME
-RUN chgrp -R $NB_GID $CONDA_DIR
+    chmod g+w /etc/passwd /etc/group && \
+    fix-permissions $HOME && \
+    fix-permissions $CONDA_DIR
 
 USER $NB_UID
 
@@ -59,8 +59,8 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86
     $CONDA_DIR/bin/conda update --all --yes && \
     $CONDA_DIR/bin/conda clean -tipsy && \
     rm -rf $HOME/.cache/yarn && \
-    chgrp -R $NB_GID $CONDA_DIR && \
-    chown -R $NB_UID:$NB_GID $HOME
+    fix-permissions $CONDA_DIR && \
+    fix-permissions $HOME
     
 RUN $CONDA_DIR/bin/conda install -c conda-forge \
     jupyter \
@@ -75,8 +75,8 @@ RUN $CONDA_DIR/bin/conda install -c conda-forge \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf $HOME/.cache/yarn && \
-    chgrp -R $NB_GID $CONDA_DIR && \
-    chown -R $NB_UID:$NB_GID $HOME
+    fix-permissions $CONDA_DIR && \
+    fix-permissions $HOME
     
 USER root
 
@@ -87,5 +87,8 @@ VOLUME $HOME/notebooks
 VOLUME /mnt
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
 CMD ["/bin/bash"]
+
+COPY start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
 
 USER $NB_USER
