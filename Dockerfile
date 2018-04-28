@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:latest
+FROM ubuntu:latest
 
 USER root
 
@@ -10,6 +10,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     ca-certificates \
     sudo \
     locales \
+    ffmpeg \
     fonts-liberation && \
     apt-get -y autoremove && \
     apt-get -y clean && \
@@ -36,12 +37,13 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER
     
 ADD fix-permissions /usr/local/bin/fix-permissions
+RUN chown +x /usr/local/bin/fix-permissions
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd /etc/group
-RUN chgrp -R $NB_GID $HOME
+RUN fix-permissions $HOME
 RUN chgrp -R $NB_GID $CONDA_DIR
 
 USER $NB_UID
@@ -84,9 +86,6 @@ VOLUME $HOME/.jupyter
 VOLUME $HOME/notebooks
 VOLUME /mnt
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
-CMD ["start.sh"]
-
-COPY start.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start.sh
+CMD ["/bin/bash"]
 
 USER $NB_USER

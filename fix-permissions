@@ -15,7 +15,7 @@
 # AND permissions include group rwX (directory-execute)
 # AND directories have setuid,setgid bits set
 
-# Shamelessly borrowed from https://github.com/jupyter/docker-stacks/blob/master/base-notebook/fix-permissions
+# shamelessly borrowed from the jupyter docker images
 
 set -e
 
