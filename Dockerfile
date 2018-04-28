@@ -62,8 +62,8 @@ RUN mkdir $HOME/notebooks && \
 RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/miniconda.sh && \
     /bin/bash $HOME/miniconda.sh -f -b -p $CONDA_DIR && \
     rm $HOME/miniconda.sh && \
-    $CONDA_DIR/bin/conda update --all --yes && \
     $CONDA_DIR/bin/conda update -n base conda && \
+    $CONDA_DIR/bin/conda update --all --yes && \
     $CONDA_DIR/bin/conda clean -tipsy && \
     rm -rf $HOME/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
